@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZacLabs</title>
+    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="icon" href="images/icon.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Mulish', sans-serif;
+            background-color: #f6f8fa;
+            color: #24292f;
+            overflow-x: hidden;
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            background-color: #ffffff;
+            border-bottom: 1px solid #d1d9e0;
+            height: 64px;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            width: 32px;
+            height: 32px;
+            background-color: #0969da;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .logo-text {
+            font-weight: 600;
+            font-size: 18px;
+            color: #24292f;
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 400px;
+            margin: 0 24px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 8px 16px;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            font-family: 'Mulish', sans-serif;
+            font-size: 14px;
+            background-color: #f6f8fa;
+            background-clip: padding-box, border-box;
+            background-origin: border-box;
+            transition: background 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            background-image: 
+                linear-gradient(#f6f8fa, #f6f8fa),
+                linear-gradient(90deg, #ff9999, #ffbb66, #ffee66, #99f099, #66d9ff, #b366ff, #ff66ff);
+            background-size: 200% 100%; 
+            animation: rainbowShift 3s linear infinite;
+        }
+
+        @keyframes rainbowShift {
+            0% {
+                background-position: 0 0, 0 0;
+            }
+            100% {
+                background-position: 0 0, 200% 0;
+            }
+        }
+
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .notification-btn {
+            background: none;
+            border: none;
+            color: #656d76;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 6px;
+        }
+
+        .notification-btn:hover {
+            background-color: #f6f8fa;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #0969da;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 64px;
+            bottom: 0;
+            width: 260px;
+            background-color: #ffffff;
+            border-right: 1px solid #d1d9e0;
+            padding: 24px 0;
+            overflow-y: auto;
+        }
+
+        .nav-section {
+            margin-bottom: 24px;
+        }
+
+        .nav-title {
+            padding: 0 24px 8px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #656d76;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 24px;
+            color: #24292f;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .nav-item:hover {
+            background-color: #f6f8fa;
+        }
+
+        .nav-item.active {
+            background-color: #dbeafe;
+            color: #0969da;
+            border-right: 3px solid #0969da;
+        }
+
+        .nav-icon {
+            font-size: 20px;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .main-content {
+            position: relative;
+            margin-left: 260px;
+            margin-top: 64px;
+            padding: 32px;
+            height: 100vh;
+            background-color: #f0fef0;
+            animation: colorShift 60s infinite;
+        }
+
+        .main-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+            background: linear-gradient(to bottom, transparent, ghostwhite);
+            pointer-events: none;
+        }
+
+        @keyframes colorShift {
+            0%   { background-color: #f0fef0; }
+            20%  { background-color: #e0f7ff; }
+            40%  { background-color: #f5ebff; }
+            60%  { background-color: #e0f7ff; } 
+            80%  { background-color: #f0fef0; } 
+            100% { background-color: #f0fef0; }
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .page-header {
+            margin-bottom: 32px;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #24292f;
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            color: #656d76;
+            font-size: 16px;
+        }
+
+        /* Search Page Styles */
+        .search-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+            padding: 16px;
+            background-color: white;
+            border: 1px solid #d1d9e0;
+            border-radius: 12px;
+        }
+
+        .search-query {
+            font-size: 18px;
+            font-weight: 600;
+            color: #24292f;
+        }
+
+        .search-count {
+            color: #656d76;
+            font-size: 14px;
+        }
+
+        .search-results {
+            display: grid;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .search-result {
+            background-color: white;
+            border: 1px solid #d1d9e0;
+            border-radius: 8px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .search-result:hover {
+            box-shadow: 0 4px 12px rgba(36, 41, 47, 0.1);
+            border-color: #0969da;
+        }
+
+        .search-result-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .search-result-type {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .search-result-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #24292f;
+            margin-bottom: 8px;
+        }
+
+        .search-result-description {
+            color: #656d76;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .search-result-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: #656d76;
+        }
+
+        .search-suggestions {
+            background-color: white;
+            border: 1px solid #d1d9e0;
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .suggestions-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #24292f;
+            margin-bottom: 16px;
+        }
+
+        .suggestion-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .suggestion-tag {
+            background-color: #f6f8fa;
+            color: #24292f;
+            border: 1px solid #d1d9e0;
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .suggestion-tag:hover {
+            background-color: #e1e4e8;
+            border-color: #0969da;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            background-color: white;
+            border: 1px solid #d1d9e0;
+            border-radius: 12px;
+        }
+
+        .no-results-icon {
+            font-size: 48px;
+            color: #656d76;
+            margin-bottom: 16px;
+        }
+
+        .no-results-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #24292f;
+            margin-bottom: 8px;
+        }
+
+        .no-results-text {
+            color: #656d76;
+        }
+
+        /* Dashboard Cards */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .dashboard-card {
+            background-color: white;
+            border: 1px solid #d1d9e0;
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .card-icon.code {
+            background-color: #22c55e;
+        }
+
+        .card-icon.audio {
+            background-color: #f59e0b;
+        }
+
+        .card-icon.images {
+            background-color: #6366f1;
+        }
+
+        .card-icon.docs {
+            background-color: #ef4444;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #24292f;
+        }
+
+        .card-description {
+            color: #656d76;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .card-stats {
+            display: flex;
+            gap: 16px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: #24292f;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #656d76;
+        }
+
+        .btn {
+            background-color: #0969da;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-family: 'Mulish', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background-color: #0550ae;
+        }
+
+        .btn-secondary {
+            background-color: #f6f8fa;
+            color: #24292f;
+            border: 1px solid #d1d9e0;
+        }
+
+        .btn-secondary:hover {
+            background-color: #f1f3f4;
+        }
+
+        /* Community Features */
+        .community-section {
+            background-color: white;
+            border: 1px solid #d1d9e0;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .community-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #24292f;
+            margin-bottom: 16px;
+        }
+
+        .community-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .community-stat {
+            text-align: center;
+            padding: 16px;
+            background-color: #f6f8fa;
+            border-radius: 8px;
+        }
+
+        /* Library Styles */
+        .library-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .library-item {
+            background-color: white;
+            border: 1px solid #d1d9e0;
+            border-radius: 8px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .library-item:hover {
+            box-shadow: 0 4px 12px rgba(36, 41, 47, 0.1);
+        }
+
+        .library-item-type {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .type-code { background-color: #dcfce7; color: #166534; }
+        .type-audio { background-color: #fef3c7; color: #92400e; }
+        .type-image { background-color: #e0e7ff; color: #3730a3; }
+        .type-pdf { background-color: #fee2e2; color: #991b1b; }
+
+        .library-item-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .library-item-description {
+            color: #656d76;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .library-item-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #656d76;
+        }
+
+        /* File View */
+        .file-view {
+            background-color: white;
+            border: 1px solid #d1d9e0;
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .file-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #f1f3f4;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: #0969da;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            font-family:"Mulish";
+            gap: 4px;
+            font-weight: 500;
+        }
+
+        .file-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #24292f;
+        }
+
+        .file-content {
+            background-color: #f6f8fa;
+            border: 1px solid #d1d9e0;
+            border-radius: 8px;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .download-btn {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        /* Storage Styles */
+        .storage-section {
+            background-color: white;
+            border: 1px solid #d1d9e0;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .storage-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .storage-header h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #24292f;
+        }
+
+        .storage-list {
+            display: grid;
+            gap: 8px;
+        }
+
+        .storage-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background-color: #f6f8fa;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+        }
+
+        .storage-key {
+            font-weight: 600;
+            color: #0969da;
+        }
+
+        .storage-value {
+            color: #24292f;
+            max-width: 300px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .storage-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-small {
+            padding: 4px 8px;
+            font-size: 12px;
+        }
+
+        .file-mappings {
+            display: grid;
+            gap: 12px;
+        }
+
+        .file-mapping {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 12px;
+            align-items: center;
+            padding: 12px;
+            background-color: #f6f8fa;
+            border-radius: 6px;
+        }
+
+        .mapping-input {
+            padding: 6px 10px;
+            border: 1px solid #d1d9e0;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+
+        .mapping-input:focus {
+            outline: none;
+            border-color: #0969da;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .top-nav {
+                padding: 0 16px;
+            }
+
+            .search-bar {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <div class="logo-section">
+            <div class="logo">
+                <span class="material-icons">science</span>
+            </div>
+            <span class="logo-text">ZacLabs</span>
+        </div>
+        
+        <div class="search-bar">
+            <input type="text" class="search-input" id="search-input" placeholder="Search ZacLabs...">
+        </div>
+        
+        <div class="user-section">
+            <button class="notification-btn">
+                <span class="material-icons">notifications</span>
+            </button>
+            <div class="user-avatar">Z</div>
+        </div>
+    </nav>
+
+    <!-- Left Sidebar -->
+    <aside class="sidebar">
+        <div class="nav-section">
+            <div class="nav-title">Main</div>
+            <div class="nav-item active" data-page="home">
+                <span class="material-icons nav-icon">home</span>
+                Home
+            </div>
+            <div class="nav-item" data-page="library">
+                <span class="material-icons nav-icon">library_books</span>
+                Library
+            </div>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-title">Tools</div>
+            <div class="nav-item" data-page="storage">
+                <span class="material-icons nav-icon">storage</span>
+                Storage
+            </div>
+            <div class="nav-item" data-page="editor">
+                <span class="material-icons nav-icon">code</span>
+                Code Editor
+            </div>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-title">Support</div>
+            <div class="nav-item" data-page="docs">
+                <span class="material-icons nav-icon">description</span>
+                Documentation
+            </div>
+            <div class="nav-item" data-page="settings">
+                <span class="material-icons nav-icon">settings</span>
+                Settings
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Search Results Page -->
+        <div id="search" class="page">
+            <div class="search-header">
+                <span class="material-icons">search</span>
+                <div>
+                    <div class="search-query" id="search-query">Search Results</div>
+                    <div class="search-count" id="search-count">0 results found</div>
+                </div>
+            </div>
+
+            <div id="search-results-container">
+                <div class="search-results" id="search-results">
+                    <!-- Search results will be populated here -->
+                </div>
+
+                <div class="search-suggestions">
+                    <div class="suggestions-title">Suggested Searches</div>
+                    <div class="suggestion-tags">
+                        <div class="suggestion-tag" onclick="performSearch('React')">React</div>
+                        <div class="suggestion-tag" onclick="performSearch('JavaScript')">JavaScript</div>
+                        <div class="suggestion-tag" onclick="performSearch('Python')">Python</div>
+                        <div class="suggestion-tag" onclick="performSearch('API')">API</div>
+                        <div class="suggestion-tag" onclick="performSearch('Audio')">Audio</div>
+                        <div class="suggestion-tag" onclick="performSearch('Icons')">Icons</div>
+                        <div class="suggestion-tag" onclick="performSearch('Templates')">Templates</div>
+                        <div class="suggestion-tag" onclick="performSearch('Guide')">Guide</div>
+                        <div class="suggestion-tag" onclick="performSearch('Authentication')">Authentication</div>
+                        <div class="suggestion-tag" onclick="performSearch('Machine Learning')">Machine Learning</div>
+                        <div class="suggestion-tag" onclick="performSearch('UI Design')">UI Design</div>
+                        <div class="suggestion-tag" onclick="performSearch('Lo-Fi')">Lo-Fi</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="no-results" id="no-results" style="display: none;">
+                <div class="no-results-icon">
+                    <span class="material-icons">search_off</span>
+                </div>
+                <div class="no-results-title">No results found</div>
+                <div class="no-results-text">Try adjusting your search terms or browse our suggestions below.</div>
+            </div>
+        </div>
+
+        <!-- Home Page -->
+        <div id="home" class="page active">
+            <div class="page-header">
+                <h1 class="page-title">Welcome to ZacLabs</h1>
+                <p class="page-subtitle">Free open-source platform for code, audio, images, PDFs and more.</p>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <div class="card-icon code">
+                            <span class="material-icons">code</span>
+                        </div>
+                        <h3 class="card-title">Source Code</h3>
+                    </div>
+                    <p class="card-description">Browse thousands of free, open-source code snippets, libraries, and full projects</p>
+                    <div class="card-stats">
+                        <div class="stat">
+                            <div class="stat-number" id="code-count">0</div>
+                            <div class="stat-label">Code Files</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number" id="code-size">0MB</div>
+                            <div class="stat-label">Total Size</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">5</div>
+                            <div class="stat-label">Languages</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <div class="card-icon audio">
+                            <span class="material-icons">audiotrack</span>
+                        </div>
+                        <h3 class="card-title">Audio Resources</h3>
+                    </div>
+                    <p class="card-description">Free music, sound effects, voice samples, and audio libraries for your projects</p>
+                    <div class="card-stats">
+                        <div class="stat">
+                            <div class="stat-number" id="audio-count">0</div>
+                            <div class="stat-label">Audio Files</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number" id="audio-size">0MB</div>
+                            <div class="stat-label">Total Size</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <div class="card-icon images">
+                            <span class="material-icons">image</span>
+                        </div>
+                        <h3 class="card-title">Images & Graphics</h3>
+                    </div>
+                    <p class="card-description">High-quality images, icons, illustrations, and design assets completely free</p>
+                    <div class="card-stats">
+                        <div class="stat">
+                            <div class="stat-number" id="image-count">0</div>
+                            <div class="stat-label">Image Files</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number" id="image-size">0MB</div>
+                            <div class="stat-label">Total Size</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <div class="card-icon docs">
+                            <span class="material-icons">picture_as_pdf</span>
+                        </div>
+                        <h3 class="card-title">Documents & PDFs</h3>
+                    </div>
+                    <p class="card-description">Educational materials, guides, templates, and documentation for developers</p>
+                    <div class="card-stats">
+                        <div class="stat">
+                            <div class="stat-number" id="pdf-count">0</div>
+                            <div class="stat-label">Documents</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number" id="pdf-size">0MB</div>
+                            <div class="stat-label">Total Size</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="community-section">
+                <h3 class="community-title">Project Status</h3>
+                <div class="community-stats">
+                    <div class="community-stat">
+                        <div class="stat-number" id="total-files">0</div>
+                        <div class="stat-label">Total Files Available</div>
+                    </div>
+                    <div class="community-stat">
+                        <div class="stat-number">More Files</div>
+                        <div class="stat-label">In Development</div>
+                    </div>
+                    <div class="community-stat">
+                        <div class="stat-number">Free & Open Source</div>
+                        <div class="stat-label">License</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Library Page -->
+        <div id="library" class="page">
+            <div class="page-header">
+                <h1 class="page-title">Resource Library</h1>
+                <p class="page-subtitle">Browse and download free resources for your projects</p>
+            </div>
+
+            <div class="library-grid">
+                <div class="library-item" onclick="openFile('Kam\'s Mix', 'audio', 'ZIP file with all of Kam\'s best recordings...', 'Kam\'s Mix.zip')">
+                    <span class="library-item-type type-audio">Audio</span>
+                    <div class="library-item-title">Kam's Mix</div>
+                    <div class="library-item-description">ZIP file with all of Kam's best recordings...</div>
+                    <div class="library-item-meta">
+                        <span>Audio</span>
+                        <span>2.7MB</span>
+                    </div>
+                </div>
+
+        
+
+
+             
+            </div>
+        </div>
+
+        <!-- File View Page -->
+        <div id="file-view" class="page">
+            <div class="file-view">
+                <div class="file-header">
+                    <button class="back-btn" onclick="goBackToLibrary()">
+                        <span class="material-icons">arrow_back</span>
+                        Back to Library
+                    </button>
+                    <h2 class="file-title" id="file-title">File Title</h2>
+                </div>
+                <div id="file-description" class="card-description"></div>
+                <div class="file-content" id="file-content">
+                    File content will appear here...
+                </div>
+                <button class="btn download-btn" onclick="downloadFile()">
+                    <span class="material-icons">download</span>
+                    Download File
+                </button>
+            </div>
+        </div>
+
+        <!-- Storage Page -->
+        <div id="storage" class="page">
+            <div class="page-header">
+                <h1 class="page-title">Storage</h1>
+                <p class="page-subtitle">Manage your local storage data</p>
+            </div>
+
+            <div class="storage-section">
+                <div class="storage-header">
+                    <h3>Local Storage Data</h3>
+                    <button class="btn btn-secondary" onclick="clearStorage()">Clear All</button>
+                </div>
+                <div class="storage-list" id="storage-list">
+                    <!-- Storage items will be loaded here -->
+                </div>
+            </div>
+
+            <div class="storage-section">
+                <div class="storage-header">
+                    <h3>File Path Mappings</h3>
+                    <button class="btn" onclick="addFileMapping()">Add Mapping</button>
+                </div>
+                <div class="file-mappings" id="file-mappings">
+                    <!-- File mappings will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Other Pages (Placeholders) -->
+        <div id="editor" class="page">
+            <div class="page-header">
+                <h1 class="page-title">Code Editor</h1>
+                <p class="page-subtitle">Online code editor with syntax highlighting</p>
+            </div>
+            <div class="dashboard-card">
+                <p>Code editor features coming soon...</p>
+            </div>
+        </div>
+
+        <div id="docs" class="page">
+            <div class="page-header">
+                <h1 class="page-title">Documentation</h1>
+                <p class="page-subtitle">API documentation and user guides</p>
+            </div>
+            <div class="dashboard-card">
+                <p>Documentation will be available here...</p>
+            </div>
+        </div>
+
+        <div id="settings" class="page">
+            <div class="page-header">
+                <h1 class="page-title">Settings</h1>
+                <p class="page-subtitle">Configure your account and preferences</p>
+            </div>
+            <div class="dashboard-card">
+                <p>Settings panel coming soon...</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.getElementById("search-input").focus();
+        
+        let currentFile = null;
+        let fileCount = 0;
+        let fileMappings = {};
+        let currentSearchQuery = '';
+
+        const libraryItems = [
+            
+            { title: 'Kam\'s Mix', type: 'audio', filename: 'Kam\'s Mix.zip', size: '2.3MB', path: 'files/Kam\'s Mix/Kam\'s Mix.zip', description: 'ZIP File with all of Kam\'s recordings...', tags: ['Audio', 'ZIP', 'MP3'] },
+        
+        ];
+
+        // Initialize file mappings with default paths
+        libraryItems.forEach(item => {
+            if (!fileMappings[item.filename]) {
+                fileMappings[item.filename] = item.path;
+            }
+        });
+
+        // Initialize file count and calculate stats
+        fileCount = libraryItems.length;
+        document.getElementById('total-files').textContent = fileCount;
+
+        // Calculate stats by type
+        function calculateStats() {
+            const stats = {
+                code: { count: 0, size: 0 },
+                audio: { count: 0, size: 0 },
+                image: { count: 0, size: 0 },
+                pdf: { count: 0, size: 0 }
+            };
+
+            libraryItems.forEach(item => {
+                stats[item.type].count++;
+                
+                // Convert size to MB for calculation
+                let sizeInMB = 0;
+                if (item.size.includes('KB')) {
+                    sizeInMB = parseFloat(item.size) / 1024;
+                } else if (item.size.includes('MB')) {
+                    sizeInMB = parseFloat(item.size);
+                } else if (item.size.includes('GB')) {
+                    sizeInMB = parseFloat(item.size) * 1024;
+                }
+                stats[item.type].size += sizeInMB;
+            });
+
+            // Update UI
+            document.getElementById('code-count').textContent = stats.code.count;
+            document.getElementById('code-size').textContent = stats.code.size.toFixed(1) + 'MB';
+            
+            document.getElementById('audio-count').textContent = stats.audio.count;
+            document.getElementById('audio-size').textContent = stats.audio.size.toFixed(1) + 'MB';
+            
+            document.getElementById('image-count').textContent = stats.image.count;
+            document.getElementById('image-size').textContent = stats.image.size.toFixed(1) + 'MB';
+            
+            document.getElementById('pdf-count').textContent = stats.pdf.count;
+            document.getElementById('pdf-size').textContent = stats.pdf.size.toFixed(1) + 'MB';
+        }
+
+        calculateStats();
+
+        // Load file mappings
+        function loadFileMappings() {
+            // Skip localStorage implementation as requested
+        }
+
+        // Save file mappings
+        function saveFileMappings() {
+            // Skip localStorage implementation as requested
+        }
+
+        // Initialize
+        loadFileMappings();
+
+        // Search functionality
+        function performSearch(query) {
+            if (!query || query.trim() === '') {
+                return;
+            }
+
+            currentSearchQuery = query.trim().toLowerCase();
+            
+            // Filter library items based on search query
+            const results = libraryItems.filter(item => {
+                return item.title.toLowerCase().includes(currentSearchQuery) ||
+                       item.description.toLowerCase().includes(currentSearchQuery) ||
+                       item.tags.some(tag => tag.toLowerCase().includes(currentSearchQuery)) ||
+                       item.type.toLowerCase().includes(currentSearchQuery);
+            });
+
+            displaySearchResults(query, results);
+            showPage('search');
+        }
+
+        function displaySearchResults(query, results) {
+            document.getElementById('search-query').textContent = `Results for "${query}"`;
+            document.getElementById('search-count').textContent = `${results.length} result${results.length !== 1 ? 's' : ''} found`;
+
+            const searchResultsContainer = document.getElementById('search-results');
+            const noResultsContainer = document.getElementById('no-results');
+            const suggestionsContainer = document.querySelector('.search-suggestions');
+
+            if (results.length === 0) {
+                document.getElementById('search-results-container').style.display = 'none';
+                noResultsContainer.style.display = 'block';
+            } else {
+                document.getElementById('search-results-container').style.display = 'block';
+                noResultsContainer.style.display = 'none';
+                
+                searchResultsContainer.innerHTML = '';
+                
+                results.forEach(item => {
+                    const resultElement = document.createElement('div');
+                    resultElement.className = 'search-result';
+                    resultElement.onclick = () => openFile(item.title, item.type, item.description, item.filename);
+                    
+                    resultElement.innerHTML = `
+                        <div class="search-result-header">
+                            <span class="search-result-type type-${item.type}">${item.type.charAt(0).toUpperCase() + item.type.slice(1)}</span>
+                        </div>
+                        <div class="search-result-title">${highlightSearchTerm(item.title, query)}</div>
+                        <div class="search-result-description">${highlightSearchTerm(item.description, query)}</div>
+                        <div class="search-result-meta">
+                            <span>${item.tags.join(', ')}</span>
+                            <span>${item.size}</span>
+                        </div>
+                    `;
+                    
+                    searchResultsContainer.appendChild(resultElement);
+                });
+            }
+        }
+
+        function highlightSearchTerm(text, searchTerm) {
+            if (!searchTerm) return text;
+            
+            const regex = new RegExp(`(${searchTerm})`, 'gi');
+            return text.replace(regex, '<mark>$1</mark>');
+        }
+
+        // Search input event listeners
+        document.getElementById('search-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const query = this.value.trim();
+                if (query) {
+                    performSearch(query);
+                }
+            }
+        });
+
+        // Navigation handling
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const pageId = this.getAttribute('data-page');
+                showPage(pageId);
+                
+                // Update active nav item
+                document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+
+                // Load storage data if storage page
+                if (pageId === 'storage') {
+                    loadStorageData();
+                    loadFileMappingsDisplay();
+                }
+            });
+        });
+
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Update navigation active state
+            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+            if (pageId !== 'search' && pageId !== 'file-view') {
+                const navItem = document.querySelector(`[data-page="${pageId}"]`);
+                if (navItem) navItem.classList.add('active');
+            }
+        }
+
+        // Library functions
+        function openFile(title, type, description, filename) {
+            currentFile = { title, type, description, filename };
+            
+            document.getElementById('file-title').textContent = title;
+            document.getElementById('file-description').textContent = description;
+            
+            // Mock file content based on type
+            let content = '';
+            switch(type) {
+                case 'code':
+                    content = `// ${title}
+// This is a sample preview of the ${title}
+
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+const AuthSystem = () => {
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+    
+    useEffect(() => {
+        checkAuthStatus();
+    }, []);
+    
+    const checkAuthStatus = async () => {
+        try {
+            const response = await axios.get('/api/auth/verify');
+            setUser(response.data.user);
+        } catch (error) {
+            console.log('User not authenticated');
+        } finally {
+            setLoading(false);
+        }
+    };
+    
+    return (
+        <div className="auth-container">
+            {loading ? (
+                <div>Loading...</div>
+            ) : user ? (
+                <Dashboard user={user} />
+            ) : (
+                <LoginForm onLogin={setUser} />
+            )}
+        </div>
+    );
+};
+
+export default AuthSystem;`;
+                    break;
+                case 'audio':
+                    content = `Audio File: ${filename}
+Format: MP3
+`;
+                    break;
+                case 'image':
+                    content = `Image Pack: ${title}
+Format: SVG Vector Graphics
+Total Files: 200+ icons
+Categories:
+- Navigation (25 icons)
+- Social Media (30 icons)
+- E-commerce (40 icons)
+- Communication (35 icons)
+- Interface (70 icons)
+
+All icons are:
+✓ Vector-based (infinitely scalable)
+✓ Optimized for web use
+✓ Available in multiple formats
+✓ Consistent design language
+✓ Free for commercial use`;
+                    break;
+                case 'pdf':
+                    content = `Document: ${title}
+Pages: 500
+Format: PDF
+Language: English
+
+Table of Contents:
+Chapter 1: Python Basics
+Chapter 2: Data Types and Variables
+Chapter 3: Control Structures
+Chapter 4: Functions and Modules
+Chapter 5: Object-Oriented Programming
+Chapter 6: File Handling
+Chapter 7: Error Handling
+Chapter 8: Advanced Topics
+Chapter 9: Libraries and Frameworks
+Chapter 10: Best Practices
+
+This comprehensive guide covers everything from Python basics to advanced topics, making it perfect for beginners and experienced developers alike.`;
+                    break;
+            }
+            
+            document.getElementById('file-content').textContent = content;
+            showPage('file-view');
+        }
+
+        function goBackToLibrary() {
+            showPage('library');
+        }
+
+        function downloadFile() {
+            if (currentFile) {
+                const filename = currentFile.filename;
+                const filePath = fileMappings[filename];
+                
+                if (filePath) {
+                    if (filePath.startsWith('http://') || filePath.startsWith('https://')) {
+                        window.open(filePath, '_blank');
+                    } else {
+                        const link = document.createElement('a');
+                        link.href = filePath;
+                        link.download = filename;
+                        link.click();
+                    }
+                } else {
+                    alert(`No file path set for ${filename}. Please set the file path in Storage Manager.`);
+                }
+            }
+        }
+
+        // Storage functions
+        function loadStorageData() {
+            const storageList = document.getElementById('storage-list');
+            storageList.innerHTML = '<div class="storage-item">Storage functionality disabled for this demo</div>';
+        }
+
+        function clearStorage() {
+            alert('Storage functionality disabled for this demo');
+        }
+
+        function removeStorageItem(key) {
+            alert('Storage functionality disabled for this demo');
+        }
+
+        // File mapping functions
+        function loadFileMappingsDisplay() {
+            const container = document.getElementById('file-mappings');
+            container.innerHTML = '';
+            
+            libraryItems.forEach(item => {
+                const mapping = document.createElement('div');
+                mapping.className = 'file-mapping';
+                mapping.innerHTML = `
+                    <span>${item.filename}</span>
+                    <input type="text" class="mapping-input" placeholder="Enter file path..." 
+                           value="${fileMappings[item.filename] || ''}" 
+                           onchange="updateFileMapping('${item.filename}', this.value)">
+                    <button class="btn btn-secondary btn-small" onclick="testDownload('${item.filename}')">Test</button>
+                `;
+                container.appendChild(mapping);
+            });
+        }
+
+        function addFileMapping() {
+            const filename = prompt('Enter filename:');
+            const filepath = prompt('Enter file path:');
+            
+            if (filename && filepath) {
+                fileMappings[filename] = filepath;
+                saveFileMappings();
+                loadFileMappingsDisplay();
+            }
+        }
+
+        function updateFileMapping(filename, filepath) {
+            if (filepath) {
+                fileMappings[filename] = filepath;
+            } else {
+                delete fileMappings[filename];
+            }
+            saveFileMappings();
+        }
+
+        function testDownload(filename) {
+            const filePath = fileMappings[filename];
+            if (filePath) {
+                if (filePath.startsWith('http://') || filePath.startsWith('https://')) {
+                    window.open(filePath, '_blank');
+                } else {
+                    const link = document.createElement('a');
+                    link.href = filePath;
+                    link.download = filename;
+                    link.click();
+                }
+            } else {
+                alert('No file path set for this file.');
+            }
+        }
+
+        // Search input styling
+        document.querySelector('.search-input').addEventListener('focus', function() {
+            this.style.boxShadow = '0 0 0 3px rgba(9, 105, 218, 0.1)';
+        });
+
+        document.querySelector('.search-input').addEventListener('blur', function() {
+            this.style.boxShadow = 'none';
+        });
+
+        // Add CSS for highlighted search terms
+        const style = document.createElement('style');
+        style.textContent = `
+            mark {
+                background-color: #ffeb3b;
+                color: #333;
+                padding: 0 2px;
+                border-radius: 2px;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
