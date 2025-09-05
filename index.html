@@ -21,7 +21,6 @@
             overflow-x: hidden;
         }
 
-        /* Top Navigation */
         .top-nav {
             background-color: #ffffff;
             border-bottom: 1px solid #d1d9e0;
@@ -245,7 +244,6 @@
             font-size: 16px;
         }
 
-        /* Search Page Styles */
         .search-header {
             display: flex;
             align-items: center;
@@ -386,7 +384,6 @@
             color: #656d76;
         }
 
-        /* Dashboard Cards */
         .dashboard-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -496,7 +493,7 @@
             background-color: #f1f3f4;
         }
 
-        /* Community Features */
+        
         .community-section {
             background-color: white;
             border: 1px solid #d1d9e0;
@@ -526,7 +523,6 @@
             border-radius: 8px;
         }
 
-        /* Library Styles */
         .library-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -578,7 +574,6 @@
             color: #656d76;
         }
 
-        /* File View */
         .file-view {
             background-color: white;
             border: 1px solid #d1d9e0;
@@ -632,7 +627,6 @@
             justify-content: center;
         }
 
-        /* Storage Styles */
         .storage-section {
             background-color: white;
             border: 1px solid #d1d9e0;
@@ -720,7 +714,6 @@
             border-color: #0969da;
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
             .sidebar {
                 transform: translateX(-100%);
@@ -967,10 +960,10 @@
             </div>
 
             <div class="library-grid">
-                <div class="library-item" onclick="openFile('Kam\'s Mix', 'audio', 'ZIP file with all of Kam\'s best recordings...', 'Kam\'s Mix.zip')">
+                <div class="library-item" onclick="openFile('Kam\'s Yaps', 'audio', 'Google Drive folder with all of Kam\'s best recordings...', 'Kam\'s Yaps')">
                     <span class="library-item-type type-audio">Audio</span>
-                    <div class="library-item-title">Kam's Mix</div>
-                    <div class="library-item-description">ZIP file with all of Kam's best recordings...</div>
+                    <div class="library-item-title">Kam's Yaps</div>
+                    <div class="library-item-description">Google Drive folder with all of Kam's best recordings...</div>
                     <div class="library-item-meta">
                         <span>Audio</span>
                         <span>2.7MB</span>
@@ -1066,6 +1059,7 @@
     </main>
 
     <script>
+        
         document.getElementById("search-input").focus();
         
         let currentFile = null;
@@ -1075,22 +1069,19 @@
 
         const libraryItems = [
             
-            { title: 'Kam\'s Mix', type: 'audio', filename: 'Kam\'s Mix.zip', size: '2.3MB', path: 'files/Kam\'s Mix/Kam\'s Mix.zip', description: 'ZIP File with all of Kam\'s recordings...', tags: ['Audio', 'ZIP', 'MP3'] },
+            { title: 'Kam\'s Yaps', type: 'audio', filename: 'Kam\'s Yaps', size: '2.3MB', path: 'https://drive.google.com/drive/u/0/folders/1J1_JtLLMQcjqVHOCDshbIsYJ7URO6xXn', description: 'Google Drive folder with all of Kam\'s recordings...', tags: ['Audio', 'Google Drive Folder', 'MP3'] },
         
         ];
 
-        // Initialize file mappings with default paths
         libraryItems.forEach(item => {
             if (!fileMappings[item.filename]) {
                 fileMappings[item.filename] = item.path;
             }
         });
 
-        // Initialize file count and calculate stats
         fileCount = libraryItems.length;
         document.getElementById('total-files').textContent = fileCount;
 
-        // Calculate stats by type
         function calculateStats() {
             const stats = {
                 code: { count: 0, size: 0 },
@@ -1102,7 +1093,6 @@
             libraryItems.forEach(item => {
                 stats[item.type].count++;
                 
-                // Convert size to MB for calculation
                 let sizeInMB = 0;
                 if (item.size.includes('KB')) {
                     sizeInMB = parseFloat(item.size) / 1024;
@@ -1114,7 +1104,6 @@
                 stats[item.type].size += sizeInMB;
             });
 
-            // Update UI
             document.getElementById('code-count').textContent = stats.code.count;
             document.getElementById('code-size').textContent = stats.code.size.toFixed(1) + 'MB';
             
@@ -1130,20 +1119,7 @@
 
         calculateStats();
 
-        // Load file mappings
-        function loadFileMappings() {
-            // Skip localStorage implementation as requested
-        }
 
-        // Save file mappings
-        function saveFileMappings() {
-            // Skip localStorage implementation as requested
-        }
-
-        // Initialize
-        loadFileMappings();
-
-        // Search functionality
         function performSearch(query) {
             if (!query || query.trim() === '') {
                 return;
@@ -1151,7 +1127,6 @@
 
             currentSearchQuery = query.trim().toLowerCase();
             
-            // Filter library items based on search query
             const results = libraryItems.filter(item => {
                 return item.title.toLowerCase().includes(currentSearchQuery) ||
                        item.description.toLowerCase().includes(currentSearchQuery) ||
@@ -1209,7 +1184,7 @@
             return text.replace(regex, '<mark>$1</mark>');
         }
 
-        // Search input event listeners
+       
         document.getElementById('search-input').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 const query = this.value.trim();
@@ -1219,17 +1194,15 @@
             }
         });
 
-        // Navigation handling
+       
         document.querySelectorAll('.nav-item').forEach(item => {
             item.addEventListener('click', function() {
                 const pageId = this.getAttribute('data-page');
                 showPage(pageId);
                 
-                // Update active nav item
                 document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
                 this.classList.add('active');
 
-                // Load storage data if storage page
                 if (pageId === 'storage') {
                     loadStorageData();
                     loadFileMappingsDisplay();
@@ -1238,15 +1211,13 @@
         });
 
         function showPage(pageId) {
-            // Hide all pages
+            
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.remove('active');
-            });
-            
-            // Show selected page
+            }); 
+
             document.getElementById(pageId).classList.add('active');
             
-            // Update navigation active state
             document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
             if (pageId !== 'search' && pageId !== 'file-view') {
                 const navItem = document.querySelector(`[data-page="${pageId}"]`);
@@ -1254,14 +1225,12 @@
             }
         }
 
-        // Library functions
         function openFile(title, type, description, filename) {
             currentFile = { title, type, description, filename };
             
             document.getElementById('file-title').textContent = title;
             document.getElementById('file-description').textContent = description;
             
-            // Mock file content based on type
             let content = '';
             switch(type) {
                 case 'code':
@@ -1306,7 +1275,7 @@ const AuthSystem = () => {
 export default AuthSystem;`;
                     break;
                 case 'audio':
-                    content = `Audio File: ${filename}
+                    content = `File/Folder: ${filename}
 Format: MP3
 `;
                     break;
@@ -1378,21 +1347,60 @@ This comprehensive guide covers everything from Python basics to advanced topics
             }
         }
 
-        // Storage functions
-        function loadStorageData() {
-            const storageList = document.getElementById('storage-list');
-            storageList.innerHTML = '<div class="storage-item">Storage functionality disabled for this demo</div>';
+        function loadFileMappings() {
+    const storedMappings = localStorage.getItem('fileMappings');
+    if (storedMappings) {
+        try {
+            fileMappings = JSON.parse(storedMappings);
+        } catch (e) {
+            console.error('Failed to parse stored file mappings:', e);
         }
+    }
+}
 
-        function clearStorage() {
-            alert('Storage functionality disabled for this demo');
-        }
+function saveFileMappings() {
+    localStorage.setItem('fileMappings', JSON.stringify(fileMappings));
+}
 
-        function removeStorageItem(key) {
-            alert('Storage functionality disabled for this demo');
-        }
 
-        // File mapping functions
+function loadStorageData() {
+    const storageList = document.getElementById('storage-list');
+    storageList.innerHTML = '';
+
+    if (localStorage.length === 0) {
+        storageList.innerHTML = '<div class="storage-item">No items in storage</div>';
+        return;
+    }
+
+    Object.keys(localStorage).forEach(key => {
+        const value = localStorage.getItem(key);
+        const item = document.createElement('div');
+        item.className = 'storage-item';
+        item.innerHTML = `
+            <strong>${key}</strong>
+            <div class="storage-value">${value}</div>
+            <button class="btn btn-small btn-danger" onclick="removeStorageItem('${key}')">Remove</button>
+        `;
+        storageList.appendChild(item);
+    });
+}
+
+function clearStorage() {
+    if (confirm('Are you sure you want to clear all storage?')) {
+        localStorage.clear();
+        loadStorageData();
+        alert('Storage cleared.');
+    }
+}
+
+function removeStorageItem(key) {
+    if (confirm(`Remove "${key}" from storage?`)) {
+        localStorage.removeItem(key);
+        loadStorageData();
+    }
+}
+        
+
         function loadFileMappingsDisplay() {
             const container = document.getElementById('file-mappings');
             container.innerHTML = '';
@@ -1447,7 +1455,6 @@ This comprehensive guide covers everything from Python basics to advanced topics
             }
         }
 
-        // Search input styling
         document.querySelector('.search-input').addEventListener('focus', function() {
             this.style.boxShadow = '0 0 0 3px rgba(9, 105, 218, 0.1)';
         });
@@ -1456,7 +1463,6 @@ This comprehensive guide covers everything from Python basics to advanced topics
             this.style.boxShadow = 'none';
         });
 
-        // Add CSS for highlighted search terms
         const style = document.createElement('style');
         style.textContent = `
             mark {
